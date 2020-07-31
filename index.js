@@ -1,20 +1,18 @@
 const fastify = require('fastify')({ logger: true });
 const runConfigDynamo = require('./config/configDynamo');
-const createTables = require('./db/tables');
+const Movie = require('./db/models/Movie');
 const loadData = require('./db/loadData');
 
 async function setup() {
   runConfigDynamo();
-  // here should check if table exists or do in createTables();
-  createTables();
-  // this is a lot of data so good to handle w/ Promise (see loadData implementation)
-  // need to add some err/succes return
+  await Movie.createTable();
+  // need to add some err/succes return - this could represent migrations, some data setup/mutation
   return await loadData();
 }
 
 // initial route
 fastify.get('/', async (request, reply) => {
-  return { hello: 'world' };
+  return { yo: 'hey' };
 });
 
 const start = async () => {

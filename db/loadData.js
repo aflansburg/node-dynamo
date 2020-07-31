@@ -9,6 +9,7 @@ module.exports = function () {
   const jsonPath = path.join(__dirname, '..', 'db', 'moviedata.json');
   const allMovies = JSON.parse(fs.readFileSync(jsonPath));
 
+  // we could use EventEmitter here to let this op run and keep doing other things rather than block w/ await in index.js
   return Promise.all(
     allMovies.map((movie) => {
       return new Promise((resolve, reject) => {
