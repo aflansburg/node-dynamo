@@ -1,7 +1,7 @@
 const fastify = require('fastify')({ logger: true });
-const runConfigDynamo = require('./config/configDynamo');
-const Movie = require('./db/models/Movie');
-const loadData = require('./db/loadData');
+const runConfigDynamo = require('./src/config/configDynamo');
+const Movie = require('./src/db/models/Movie');
+const loadData = require('./src/db/loadData');
 
 async function setup() {
   runConfigDynamo();
