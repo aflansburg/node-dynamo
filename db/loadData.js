@@ -30,7 +30,6 @@ module.exports = function () {
             );
             reject();
           } else {
-            // console.log('Success: ', movie.title, data);
             resolve();
           }
         });
