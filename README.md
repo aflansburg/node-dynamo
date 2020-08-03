@@ -8,7 +8,7 @@
 4. Start local DynamoDB server
 
    ```
-   java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb
+   java -D java.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb
    ```
 
 5. Can list tables:
