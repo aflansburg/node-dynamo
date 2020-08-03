@@ -1,4 +1,4 @@
-# Node + Fastify + DynamoDB
+# Node + Fastify + GraphQL (Apollo) + DynamoDB
 
 ## Setup
 
