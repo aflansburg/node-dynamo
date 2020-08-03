@@ -19,6 +19,7 @@ const schema = {
 };
 
 const Movie = {
+  // ? Should a model be aware of how to "create" the table in Dynamo ?
   createTable: async () => {
     const dynamodb = await new AWS.DynamoDB();
     // should check here if table exists

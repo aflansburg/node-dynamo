@@ -1,0 +1,33 @@
+type Movie {
+  year: String
+  title: String
+  info: MovieInfo
+}
+
+type MovieInfo {
+  directors: [Director]
+  release_date: String
+  rating: Float
+  genres: [Genre]
+  image_url: String
+  plot: String
+  rank: Int
+  running_time_secs: Int
+  actors: [Actor]
+}
+
+type Genre {
+  name: String
+}
+
+type Director {
+  name: String
+}
+
+type Actor {
+  name: String
+}
+
+type Query {
+  movies: [Movie]
+}

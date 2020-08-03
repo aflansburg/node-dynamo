@@ -1,8 +1,31 @@
-const fastify = require('fastify')({ logger: true });
+const path = require('path');
+const fs = require('fs');
+
+// http server
+const app = require('fastify')({ logger: true });
+
+// apollo server
+const { ApolloServer, gql } = require('apollo-server-fastify');
+const { resolvers } = require('./src/api/gql/resolvers');
+
+const typeDefs = gql`
+  ${fs.readFileSync(
+    path.resolve(__dirname, './src/api/gql/types/schema.graphql'),
+    'utf8'
+  )}
+`;
+
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+});
+
+// dynamo / db setup
 const runConfigDynamo = require('./src/config/configDynamo');
 const Movie = require('./src/models/Movie');
 const loadData = require('./src/db/loadData');
 
+// movie this into a "migration"
 async function setup() {
   runConfigDynamo();
   await Movie.createTable();
@@ -11,20 +34,26 @@ async function setup() {
 }
 
 // initial route
-fastify.get('/', async (request, reply) => {
-  return { yo: 'hey' };
-});
+// app.get('/', async (request, reply) => {
+//   return { yo: 'hey' };
+// });
 
 const start = async () => {
   try {
+    // setup
     console.log('setting up sample data');
     await setup();
     console.log('done setting up sample data');
     console.log('starting server');
-    await fastify.listen(3001);
-    fastify.log.info(`server listening on ${fastify.server.address().port}`);
+
+    // register apollo middleware
+    app.register(server.createHandler());
+
+    // begin listening
+    await app.listen(3001);
+    app.log.info(`server listening on ${app.server.address().port}`);
   } catch (err) {
-    fastify.log.error(err);
+    app.log.error(err);
     process.exit();
   }
 };
